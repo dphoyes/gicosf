@@ -438,12 +438,12 @@ class GitComposerSftp:
 
         try:
             abspath = subprocess.run(
-                ['php', '-r', f"""
+                ['php', '-r', """
                     require_once __DIR__.'/app/autoload.php';
                     require_once __DIR__.'/app/AppKernel.php';
-                    $kernel = new AppKernel('{environment}', true);
+                    $kernel = new AppKernel('{0}', true);
                     echo $kernel->getCacheDir();
-                """],
+                """.format(environment)],
                 cwd=prefix if prefix else None,
                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
                 check=True, encoding='utf8'
