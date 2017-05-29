@@ -591,7 +591,12 @@ class GitComposerSftp:
                 os.environ[pass_env] = self.password
 
         try:
-            subprocess.check_call(["dandelion"] + options)
+            cwd = cwd=self.local_project_root_path
+        except:
+            cwd = None
+
+        try:
+            subprocess.check_call(["dandelion"] + options, cwd=cwd)
         except subprocess.CalledProcessError as e:
             raise SystemExit(e.returncode)
 
