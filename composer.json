@@ -1,0 +1,9 @@
+{
+    "name": "dphoyes/gicosf",
+    "license": "MIT",
+    "type": "library",
+    "description": "Tool for deploying Symfony projects over sftp",
+    "bin": [
+        "gicosf"
+    ]
+}
