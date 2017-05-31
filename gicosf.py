@@ -752,7 +752,10 @@ class GitComposerSftp:
             raise SystemExit(0)
 
 
-
-if __name__ == "__main__":
+def main():
     w = GitComposerSftp()
     w.main()
+    
+
+if __name__ == "__main__":
+    main()
