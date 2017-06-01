@@ -595,10 +595,25 @@ class GitComposerSftp:
         except:
             cwd = None
 
-        try:
-            subprocess.check_call(["dandelion"] + options, cwd=cwd)
-        except subprocess.CalledProcessError as e:
-            raise SystemExit(e.returncode)
+        tried_adjusting_path = False
+
+        while True:
+            try:
+                subprocess.check_call(["dandelion"] + options, cwd=cwd)
+                return
+            except subprocess.CalledProcessError as e:
+                raise SystemExit(e.returncode)
+            except OSError as e:
+                if e.errno == os.errno.ENOENT and not tried_adjusting_path:
+                    tried_adjusting_path = True
+                    try:
+                        gem_path = subprocess.check_output(['ruby', '-rubygems', '-e', 'puts Gem.user_dir'], encoding='utf8').strip()
+                        gem_bin_path = os.path.join(gem_path, 'bin')
+                        os.environ['PATH'] = "{}:{}".format(os.environ['PATH'], gem_bin_path)
+                    except:
+                        pass
+                else:
+                    raise
 
     def set_up_pass(self):
         check_installed('gpg')
