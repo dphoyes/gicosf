@@ -355,6 +355,11 @@ class WebmasterSSH:
         for f in top_files:
             self.uploadFile(os.path.join(self.vpath_local, f), os.path.join(self.vpath_remote, f))
 
+        bootstrap_rel_path = ['..', 'var', 'bootstrap.php.cache']
+        local_bootstrap_file = os.path.join(self.vpath_local, *bootstrap_rel_path)
+        if os.path.isfile(local_bootstrap_file):
+            self.uploadFile(local_bootstrap_file, os.path.join(self.vpath_remote, *bootstrap_rel_path))
+
         # Upload composer state directory
         # if local_list != remote_list:
         print("Updating Composer State")
